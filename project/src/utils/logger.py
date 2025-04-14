@@ -33,17 +33,18 @@ def setup_logger():
     logger = logging.getLogger('app_logger')
     logger.setLevel(logging_params.get('log_level', 'DEBUG'))
     logger.handlers.clear()  
-    formatter = ColorFormatter('%(asctime)s  %(levelname)s  %(message)s')
 
     if logging_params.get('log_to_file', False):
         os.makedirs(f"../{logging_params.get('output_dir', 'logs')}", exist_ok=True)
         file_handler = logging.FileHandler('../logs/app_logs.log')
-        file_handler.setFormatter(formatter)
+        file_formatter = logging.Formatter("[%(asctime)s] [%(levelname)s] %(message)s")
+        file_handler.setFormatter(file_formatter)
         logger.addHandler(file_handler)
 
     if logging_params.get('log_to_console', True):
         console_handler = logging.StreamHandler()
-        console_handler.setLevel(logging.DEBUG)  
+        console_handler.setLevel(logging.DEBUG)
+        formatter = ColorFormatter('%(asctime)s  %(levelname)s  %(message)s')
         console_handler.setFormatter(formatter)
         logger.addHandler(console_handler)
    
