@@ -1,0 +1,15 @@
+service: "service:MedicalRegressorService"
+description: "Medical cost prediction"
+labels:
+  owner: nxfive
+  project: medical_regressor_service
+include:
+  - "*.py"
+python:
+  packages:
+    - numpy
+    - pandas
+    - scikit-learn
+    - pydantic
+models:
+  - medical_regressor:random_forest
