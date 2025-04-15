@@ -1,0 +1,33 @@
+FROM python:3.12-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    build-essential \
+    gcc \
+    g++ \
+    libffi-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /backend
+
+COPY ./src/project/server/bentofile.yaml /backend/src/project/server/
+COPY ./src/project/server/export_model.py /backend/src/project/server/
+COPY ./src/project/server/service.py /backend/src/project/server/
+
+COPY ./src/config /backend/src/config
+COPY ./models /backend/models
+COPY requirements-server.txt /backend/requirements.txt
+
+RUN pip install -r requirements.txt
+
+RUN python src/project/server/export_model.py
+
+EXPOSE 3000
+
+WORKDIR /backend/src/project/server
+
+CMD ["bentoml", "serve"]
