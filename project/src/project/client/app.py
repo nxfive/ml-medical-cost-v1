@@ -1,6 +1,6 @@
 import streamlit as st
-import pandas as pd
 import requests
+import os 
 
 st.title("Medical Cost Prediction")
 st.markdown("Enter data:")
@@ -24,11 +24,14 @@ input_data = {
     }
 }
 
+bento_port = os.getenv('BENTO_PORT', '3000')
+bento_host = os.getenv('BENTO_HOST', 'localhost')
+
 if st.button('Predict Medical Cost'):
-    response = requests.post('http://localhost:3000/predict', json=input_data)
+    response = requests.post(f"http://{bento_host}:{bento_port}/predict", json=input_data)
     if response.status_code == 200:
         result = response.json()
         predicted = result.get('charges')
-        st.success(f"Your medical costs: {round(predicted, 2)}$")
+        st.success(f'Your medical costs: {round(predicted, 2)}$')
     else:
         st.error('Server Error')
