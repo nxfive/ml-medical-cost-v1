@@ -1,7 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 import os
-import yaml
+
 
 df = pd.read_parquet('../data/raw/insurance.parquet')
 
@@ -11,9 +11,6 @@ y = df['charges']
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, train_size=0.2, random_state=42
 )
-
-with open('config/params.yaml', 'r') as f:
-    params = yaml.safe_load(f)
 
 os.makedirs('../data/processed', exist_ok=True)
 
