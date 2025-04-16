@@ -13,9 +13,10 @@ deploy:
     - touch ~/.ssh/known_hosts
     - chmod 600 ~/.ssh/*
     - ssh-keyscan "$VPS_HOST" >> ~/.ssh/known_hosts
-    - echo -e "Host $VPS_HOST\n\tUser $SSH_USER\n\t StrictHostKeyChecing no\n" > ~/.ssh/config
+    - echo -e "Host $VPS_HOST\n\tUser $SSH_USER\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
 
   script:
+    - scp docker-compose.yaml $SSH_USER@$VPS_HOST:/home/user/
     - ssh "$SSH_USER@$VPS_HOST" "
         docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com &&
         docker-compose -f /home/user/docker-compose.yaml pull &&
