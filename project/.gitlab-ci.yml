@@ -12,12 +12,12 @@ deploy:
     - touch ~/.ssh/config
     - touch ~/.ssh/known_hosts
     - chmod 600 ~/.ssh/*
-    - ssh-keyscan "$VPS_HOST" >> ~/.ssh/known_hosts
-    - echo -e "Host $VPS_HOST\n\tUser $SSH_USER\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+    - ssh-keyscan -p $SSH_PORT "$VPS_HOST" >> ~/.ssh/known_hosts
+    - echo -e "Host $VPS_HOST\n\tUser $SSH_USER\n\tStrictHostKeyChecking no\n\tPort $SSH_PORT\n" > ~/.ssh/config
 
   script:
-    - scp project/docker-compose.yaml $SSH_USER@$VPS_HOST:/opt/user/
-    - ssh "$SSH_USER@$VPS_HOST" "
+    - scp -P $SSH_PORT project/docker-compose.yaml $SSH_USER@$VPS_HOST:/opt/user/
+    - ssh -p $SSH_PORT "$SSH_USER@$VPS_HOST" "
         docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com &&
         docker-compose -f /opt/user/docker-compose.yaml pull &&
         docker-compose -f /opt/user/docker-compose.yaml up -d
