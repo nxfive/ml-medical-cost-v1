@@ -1,9 +1,6 @@
 stages:
   - deploy
 
-stages:
-  - deploy
-
 deploy:
   stage: deploy
   before_script:
