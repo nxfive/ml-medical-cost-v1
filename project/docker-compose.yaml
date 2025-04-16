@@ -2,14 +2,14 @@ version: '3.9'
 
 services:
   server:
-    image: registry.gitlab.com/nxfive/ml-medical-cost/server:v1
+    image: registry.gitlab.com/nxfiv3/ml-medical-cost/server:v1
     ports:
       - 8000:3000
     environment:
       - BENTO_PORT=3000
 
   client:
-    image: registry.gitlab.com/nxfive/ml-medical-cost/client:v1
+    image: registry.gitlab.com/nxfiv3/ml-medical-cost/client:v1
     ports:
       - 8001:8501
     environment:
