@@ -4,7 +4,7 @@ stages:
 deploy:
   stage: deploy
   script:
-    - echo "$VPS_SECRET_KEY" > /tmp/id_rsa
+    - echo "$VPS_SECRET_KEY" | base64 -d > /tmp/id_rsa
     - chmod 600 /tmp/id_rsa
     - ssh -o StrictHostKeyChecking=no -i /tmp/id_rsa $SSH_USER@$VPS_HOST "
         docker-compose -f docker-compose.yaml up -d
