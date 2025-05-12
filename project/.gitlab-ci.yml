@@ -1,5 +1,37 @@
 stages:
+  - process_data
+  - train_model
+  - register_model
   - deploy
+
+preprocessing:
+  stage: process_data
+  image: python:3.12
+  before_script:
+    - pip install poetry
+    - poetry install
+  script:
+    - python src/data/fetch_data.py
+    - python src/data/split_data.py
+
+training:
+  stage: train_model
+  image: python:3.12
+  before_script:
+    - pip install poetry
+    - poetry install
+  script:
+    - python src/mlflow_setup.py
+    - python src/main.py
+
+building:
+  stage: register_model
+  image: python:3.12
+  before_script:
+    - pip install poetry
+    - poetry install
+  script:
+    - python src/project/server/build_model.py
 
 deploy:
   stage: deploy
