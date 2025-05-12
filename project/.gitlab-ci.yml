@@ -29,6 +29,7 @@ training:
     - pip install poetry
     - poetry install
   script:
+    - ls data/processed/
     - poetry run python src/mlflow_setup.py
     - poetry run python src/main.py
 
