@@ -21,6 +21,9 @@ preprocessing:
 training:
   stage: train_model
   image: python:3.12
+  needs:
+    - job: preprocessing
+      artifacts: true 
   before_script:
     - cd project
     - pip install poetry
