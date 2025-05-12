@@ -3,6 +3,7 @@ import mlflow
 import yaml
 import joblib
 from pathlib import Path
+from datetime import datetime
 
 
 with open('../../config/params.yaml', 'r') as f:
@@ -13,7 +14,9 @@ model_name = 'MedicalRegressor'
 
 sklearn_model = mlflow.sklearn.load_model(f'models:/{model_name}/latest')
 
-model_output = (Path(__file__).resolve().parents[3]) / 'models/medical_regressor.pkl'
+model_tag = datetime.now().strftime("%Y%m%d%H%M%S")  
+model_output = (Path(__file__).resolve().parents[3]) / f'models/medical_regressor_{model_tag}.pkl'
+
 joblib.dump(sklearn_model, model_output)
 
 bentoml_model_name = params.get('bento', {}).get('model_name', 'medical_regressor')
