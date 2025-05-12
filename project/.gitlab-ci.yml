@@ -10,7 +10,7 @@ preprocessing:
   before_script:
     - cd project
     - pip install poetry
-    - poetry install
+    - poetry install --no-interaction --no-ansi
   script:
     - python src/data/fetch_data.py
     - python src/data/split_data.py
