@@ -14,9 +14,10 @@ preprocessing:
   script:
     - poetry run python src/data/fetch_data.py
     - poetry run python src/data/split_data.py
+    - ls -la data/processed/
   artifacts:
     paths:
-      - data/processed/
+      - project/data/processed/  
 
 training:
   stage: train_model
@@ -29,6 +30,8 @@ training:
     - pip install poetry
     - poetry install
   script:
+    - pwd
+    - ls -la
     - ls data/processed/
     - poetry run python src/mlflow_setup.py
     - poetry run python src/main.py
