@@ -12,8 +12,8 @@ preprocessing:
     - pip install poetry
     - poetry install --no-interaction --no-ansi
   script:
-    - python src/data/fetch_data.py
-    - python src/data/split_data.py
+    - poetry run python src/data/fetch_data.py
+    - poetry run python src/data/split_data.py
 
 training:
   stage: train_model
@@ -23,8 +23,8 @@ training:
     - pip install poetry
     - poetry install
   script:
-    - python src/mlflow_setup.py
-    - python src/main.py
+    - poetry run python src/mlflow_setup.py
+    - poetry run python src/main.py
 
 building:
   stage: register_model
@@ -34,7 +34,7 @@ building:
     - pip install poetry
     - poetry install
   script:
-    - python src/project/server/build_model.py
+    - poetry run python src/project/server/build_model.py
 
 deploy:
   stage: deploy
