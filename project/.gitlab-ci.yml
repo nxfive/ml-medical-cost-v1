@@ -14,6 +14,9 @@ preprocessing:
   script:
     - poetry run python src/data/fetch_data.py
     - poetry run python src/data/split_data.py
+  artifacts:
+    paths:
+      - data/processed/
 
 training:
   stage: train_model
