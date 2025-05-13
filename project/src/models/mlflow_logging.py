@@ -3,8 +3,23 @@ import mlflow
 import os 
 
 
+def setup_mlflow():
+    token = os.getenv('MLFLOW_TRACKING_TOKEN')
+    remote_uri = os.getenv('MLFLOW_TRACKING_URI')
+
+    if token:
+        mlflow.set_tracking_uri(remote_uri)
+        mlflow.set_experiment('ci-build')
+
+    else:
+        mlflow.set_tracking_uri('http://localhost:5000') 
+        mlflow.set_experiment('local-test')
+
+
 def log_best_model(best_model, best_params, study, X_train, X_test, y_train, y_test):
     
+    setup_mlflow()
+
     with mlflow.start_run(run_name='Best Model', nested=True):
         for param, value in best_params.items():
             mlflow.log_param(f'Best_{param}', value)
