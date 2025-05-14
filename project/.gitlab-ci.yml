@@ -33,12 +33,18 @@ training:
     - pwd
     - ls -la
     - ls data/processed/
-    - poetry run python src/mlflow_setup.py
     - poetry run python src/main.py
+    - find . -type d -name "mlruns" -exec ls -la {} \;
+  artifacts:
+    paths:
+      - project/models/  
 
 building:
   stage: register_model
   image: python:3.12
+  needs:
+    - job: training
+      artifacts: true 
   before_script:
     - cd project
     - pip install poetry
